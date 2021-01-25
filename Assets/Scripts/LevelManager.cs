@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
             GameObject newTowerUIObj = Instantiate (_towerUIPrefab.gameObject, _towerUIParent);
             TowerUI newTowerUI = newTowerUIObj.GetComponent<TowerUI> ();
 
-            newTowerUI.ChangeTowerIcon (tower.GetTowerHeadIcon ());
+            newTowerUI.SetTowerPrefab (tower);
             newTowerUI.transform.name = tower.name;
 
             _activeTowerUIs.Add (newTowerUI);

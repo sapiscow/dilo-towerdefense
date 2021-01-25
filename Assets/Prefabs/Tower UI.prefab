@@ -238,3 +238,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _towerIcon: {fileID: 8866895277689444146}
+  _towerPrefab: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+    type: 3}
