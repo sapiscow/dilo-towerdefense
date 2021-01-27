@@ -64,7 +64,7 @@ public class Tower : MonoBehaviour
         _runningShootDelay -= Time.unscaledDeltaTime;
         if (_runningShootDelay <= 0f)
         {
-            bool headHasAimed = Mathf.Abs (_towerHead.transform.rotation.eulerAngles.z - _targetRotation.eulerAngles.z) == 0f;
+            bool headHasAimed = Mathf.Abs (_towerHead.transform.rotation.eulerAngles.z - _targetRotation.eulerAngles.z) < 10f;
             if (!headHasAimed)
             {
                 return;

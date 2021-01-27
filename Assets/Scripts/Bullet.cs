@@ -10,10 +10,16 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate ()
     {
+        if (LevelManager.Instance.IsOver)
+        {
+            return;
+        }
+
         if (_targetEnemy != null)
         {
             if (!_targetEnemy.gameObject.activeSelf)
             {
+                gameObject.SetActive (false);
                 _targetEnemy = null;
                 return;
             }
@@ -36,6 +42,16 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.Equals (_targetEnemy.gameObject))
         {
             gameObject.SetActive (false);
+
+            if (_bulletSplashRadius > 0f)
+            {
+                LevelManager.Instance.ExplodeAt (transform.position, _bulletSplashRadius, _bulletPower);
+            }
+            else
+            {
+                _targetEnemy.ReduceEnemyHealth (_bulletPower);
+            }
+
             _targetEnemy = null;
         }
     }

@@ -5,8 +5,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _maxHealth = 1;
     [SerializeField] private float _moveSpeed = 1f;
 
+    private int _currentHealth;
+
     public Vector3 TargetPosition { get; private set; }
     public int CurrentPathIndex { get; private set; }
+
+    private void OnEnable ()
+    {
+        _currentHealth = _maxHealth;
+    }
 
     public void MoveToTarget ()
     {
@@ -39,6 +46,15 @@ public class Enemy : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, 180f));
             }
+        }
+    }
+
+    public void ReduceEnemyHealth (int damage)
+    {
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            gameObject.SetActive (false);
         }
     }
 

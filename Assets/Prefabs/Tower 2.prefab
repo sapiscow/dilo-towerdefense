@@ -33,6 +33,11 @@ PrefabInstance:
       propertyPath: _shootDistance
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: _shootDelay
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3923553844812890358, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
         type: 3}
       propertyPath: m_Sprite
