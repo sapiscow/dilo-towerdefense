@@ -12,6 +12,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tower 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: _bulletPrefab
+      value: 
+      objectReference: {fileID: 2429966999555115238, guid: ebf156e592151a443b4aa23c0b88883e,
+        type: 3}
+    - target: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: _towerPlace
+      value: 
+      objectReference: {fileID: 165944906443453213}
+    - target: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: _towerHead
+      value: 
+      objectReference: {fileID: 165944906947825499}
+    - target: {fileID: 3923553844507786422, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: _bulletSplashRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923553844812890358, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ad370c5b26a67f34a9392d822eb874bb,
+        type: 3}
     - target: {fileID: 3923553844507786417, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,11 +94,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3923553844812890358, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: ad370c5b26a67f34a9392d822eb874bb,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb, type: 3}
+--- !u!212 &165944906443453213 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3923553844507786416, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3764672204010803117}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &165944906947825499 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3923553844812890358, guid: 40c850dc7b4e43e4ea8a6e7ae64219eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3764672204010803117}
+  m_PrefabAsset: {fileID: 0}

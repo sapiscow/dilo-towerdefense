@@ -3,6 +3,20 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager _instance = null;
+    public static LevelManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<LevelManager> ();
+            }
+
+            return _instance;
+        }
+    }
+
     [SerializeField] private Transform _towerUIParent;
     [SerializeField] private GameObject _towerUIPrefab;
 
@@ -12,14 +26,15 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform[] _enemyPaths;
     [SerializeField] private float _spawnDelay = 5f;
 
-    private List<TowerUI> _activeTowerUIs = new List<TowerUI> ();
+    private List<Tower> _spawnedTowers = new List<Tower> ();
     private List<Enemy> _spawnedEnemies = new List<Enemy> ();
+    private List<Bullet> _spawnedBullets = new List<Bullet> ();
 
     private float _runningSpawnDelay;
 
     private void Start ()
     {
-        InstantiateAllTower ();
+        InstantiateAllTowerUI ();
     }
 
     private void Update ()
@@ -29,6 +44,13 @@ public class LevelManager : MonoBehaviour
         {
             SpawnEnemy ();
             _runningSpawnDelay = _spawnDelay;
+        }
+
+        foreach (Tower tower in _spawnedTowers)
+        {
+            tower.CheckNearestEnemy (_spawnedEnemies);
+            tower.SeekTarget ();
+            tower.ShootTarget ();
         }
 
         foreach (Enemy enemy in _spawnedEnemies)
@@ -57,7 +79,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void InstantiateAllTower ()
+    private void InstantiateAllTowerUI ()
     {
         foreach (Tower tower in _towerPrefabs)
         {
@@ -66,9 +88,12 @@ public class LevelManager : MonoBehaviour
 
             newTowerUI.SetTowerPrefab (tower);
             newTowerUI.transform.name = tower.name;
-
-            _activeTowerUIs.Add (newTowerUI);
         }
+    }
+
+    public void RegisterSpawnedTower (Tower tower)
+    {
+        _spawnedTowers.Add (tower);
     }
 
     private void SpawnEnemy ()
@@ -95,6 +120,26 @@ public class LevelManager : MonoBehaviour
         newEnemy.SetTargetPosition (_enemyPaths[1].position);
         newEnemy.SetCurrentPathIndex (1);
         newEnemy.gameObject.SetActive (true);
+    }
+
+    public Bullet GetBulletFromPool (Bullet prefab)
+    {
+        GameObject newBulletObj = _spawnedBullets.Find (
+            b => !b.gameObject.activeSelf && b.name.Contains (prefab.name)
+        )?.gameObject;
+
+        if (newBulletObj == null)
+        {
+            newBulletObj = Instantiate (prefab.gameObject);
+        }
+
+        Bullet newBullet = newBulletObj.GetComponent<Bullet> ();
+        if (!_spawnedBullets.Contains (newBullet))
+        {
+            _spawnedBullets.Add (newBullet);
+        }
+
+        return newBullet;
     }
 
     private void OnDrawGizmos ()

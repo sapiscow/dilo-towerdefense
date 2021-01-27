@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5972104914857882449, guid: 51f355797ac498c46a8075a7247d3c91,
+        type: 3}
+      propertyPath: _moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972104914857882449, guid: 51f355797ac498c46a8075a7247d3c91,
+        type: 3}
+      propertyPath: _maxHealth
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5972104914857882479, guid: 51f355797ac498c46a8075a7247d3c91,
         type: 3}
       propertyPath: m_LocalPosition.x

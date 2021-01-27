@@ -42,6 +42,7 @@ public class TowerUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragH
         {
             _currentSpawnedTower.LockPlacement ();
             _currentSpawnedTower.ToggleOrderInLayer (false);
+            LevelManager.Instance.RegisterSpawnedTower (_currentSpawnedTower);
             _currentSpawnedTower = null;
         }
     }

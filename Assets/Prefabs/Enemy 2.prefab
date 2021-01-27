@@ -117,6 +117,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5972104914857882449, guid: 51f355797ac498c46a8075a7247d3c91,
+        type: 3}
+      propertyPath: _maxHealth
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5972104914857882478, guid: 51f355797ac498c46a8075a7247d3c91,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8656cfdcac41c4d44bf73ae2b695b7cb,
+        type: 3}
     - target: {fileID: 5972104914857882479, guid: 51f355797ac498c46a8075a7247d3c91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -172,12 +183,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5972104914857882478, guid: 51f355797ac498c46a8075a7247d3c91,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8656cfdcac41c4d44bf73ae2b695b7cb,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51f355797ac498c46a8075a7247d3c91, type: 3}
 --- !u!1 &6181678643904359074 stripped
