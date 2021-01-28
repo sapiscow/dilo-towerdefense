@@ -2,33 +2,18 @@
 
 public class Tower : MonoBehaviour
 {
+    // Tower Component
     [SerializeField] private SpriteRenderer _towerPlace;
     [SerializeField] private SpriteRenderer _towerHead;
-    [SerializeField] private int _shootPower;
-    [SerializeField] private float _shootDistance;
-    [SerializeField] private float _shootDelay;
-    [SerializeField] private float _bulletSpeed;
-    [SerializeField] private float _bulletSplashRadius;
 
-    public Vector2? PlacePosition { get; private set; }
+    // Tower Properties
+    [SerializeField] private int _shootPower = 1;
+    [SerializeField] private float _shootDistance = 1f;
+    [SerializeField] private float _shootDelay = 5f;
+    [SerializeField] private float _bulletSpeed = 1f;
+    [SerializeField] private float _bulletSplashRadius = 0f;
 
-    public void SetPlacePosition (Vector2? newPosition)
-    {
-        PlacePosition = newPosition;
-    }
-
-    public void LockPlacement ()
-    {
-        transform.position = (Vector2) PlacePosition;
-    }
-
-    public void ToggleOrderInLayer (bool toFront)
-    {
-        int orderInLayer = toFront ? 2 : 0;
-        _towerPlace.sortingOrder = orderInLayer;
-        _towerHead.sortingOrder = orderInLayer;
-    }
-
+    // Fungsi yang digunakan untuk mengambil sprite pada Tower Head
     public Sprite GetTowerHeadIcon ()
     {
         return _towerHead.sprite;
