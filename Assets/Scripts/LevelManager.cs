@@ -3,6 +3,21 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    // Fungsi Singleton
+    private static LevelManager _instance = null;
+    public static LevelManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<LevelManager> ();
+            }
+
+            return _instance;
+        }
+    }
+
     [SerializeField] private Transform _towerUIParent;
     [SerializeField] private GameObject _towerUIPrefab;
 
@@ -12,18 +27,21 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform[] _enemyPaths;
     [SerializeField] private float _spawnDelay = 5f;
 
-    private List<TowerUI> _activeTowerUIs = new List<TowerUI> ();
+    private List<Tower> _spawnedTowers = new List<Tower> ();
     private List<Enemy> _spawnedEnemies = new List<Enemy> ();
 
     private float _runningSpawnDelay;
 
     private void Start ()
     {
-        InstantiateAllTower ();
+        InstantiateAllTowerUI ();
     }
 
     private void Update ()
     {
+        // Counter untuk spawn enemy dalam jeda waktu yang ditentukan
+        // Time.unscaledDeltaTime adalah deltaTime yang independent, tidak terpengaruh oleh apapun kecuali game object itu sendiri,
+        // jadi bisa digunakan sebagai penghitung waktu
         _runningSpawnDelay -= Time.unscaledDeltaTime;
         if (_runningSpawnDelay <= 0f)
         {
@@ -38,6 +56,8 @@ public class LevelManager : MonoBehaviour
                 continue;
             }
 
+            // Kenapa nilainya 0.1? Karena untuk lebih mentoleransi perbedaan posisi,
+            // akan terlalu sulit jika perbedaan posisinya harus 0 atau sama persis
             if (Vector2.Distance (enemy.transform.position, enemy.TargetPosition) < 0.1f)
             {
                 enemy.SetCurrentPathIndex (enemy.CurrentPathIndex + 1);
@@ -57,7 +77,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void InstantiateAllTower ()
+    private void InstantiateAllTowerUI ()
     {
         foreach (Tower tower in _towerPrefabs)
         {
@@ -66,9 +86,12 @@ public class LevelManager : MonoBehaviour
 
             newTowerUI.SetTowerPrefab (tower);
             newTowerUI.transform.name = tower.name;
-
-            _activeTowerUIs.Add (newTowerUI);
         }
+    }
+
+    public void RegisterSpawnedTower (Tower tower)
+    {
+        _spawnedTowers.Add (tower);
     }
 
     private void SpawnEnemy ()
@@ -97,6 +120,8 @@ public class LevelManager : MonoBehaviour
         newEnemy.gameObject.SetActive (true);
     }
 
+    // Untuk menampilkan garis penghubung dalam window Scene
+    // tanpa harus di-Play terlebih dahulu
     private void OnDrawGizmos ()
     {
         for (int i = 0; i < _enemyPaths.Length - 1; i++)
