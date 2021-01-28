@@ -1,21 +1,37 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    // Fungsi Singleton
+    private static LevelManager _instance = null;
+    public static LevelManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<LevelManager> ();
+            }
+
+            return _instance;
+        }
+    }
+
     [SerializeField] private Transform _towerUIParent;
     [SerializeField] private GameObject _towerUIPrefab;
 
     [SerializeField] private Tower[] _towerPrefabs;
 
-    private List<TowerUI> _activeTowerUIs = new List<TowerUI> ();
+    private List<Tower> _spawnedTowers = new List<Tower> ();
 
     private void Start ()
     {
-        InstantiateAllTower ();
+        InstantiateAllTowerUI ();
     }
 
-    private void InstantiateAllTower ()
+    // Menampilkan seluruh Tower yang tersedia pada UI Tower Selection
+    private void InstantiateAllTowerUI ()
     {
         foreach (Tower tower in _towerPrefabs)
         {
@@ -24,8 +40,12 @@ public class LevelManager : MonoBehaviour
 
             newTowerUI.SetTowerPrefab (tower);
             newTowerUI.transform.name = tower.name;
-
-            _activeTowerUIs.Add (newTowerUI);
         }
+    }
+
+    // Mendaftarkan Tower yang di-spawn agar bisa dikontrol oleh LevelManager
+    public void RegisterSpawnedTower (Tower tower)
+    {
+        _spawnedTowers.Add (tower);
     }
 }
