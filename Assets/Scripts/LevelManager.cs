@@ -136,7 +136,12 @@ public class LevelManager : MonoBehaviour
         SetTotalEnemy (--_enemyCounter);
         if (_enemyCounter < 0)
         {
-            SetGameOver (true);
+            bool isAllEnemyDestroyed = _spawnedEnemies.Find (e => e.gameObject.activeSelf) == null;
+            if (isAllEnemyDestroyed)
+            {
+                SetGameOver (true);
+            }
+
             return;
         }
 
@@ -209,14 +214,16 @@ public class LevelManager : MonoBehaviour
 
     public void SetCurrentLives (int currentLives)
     {
-        _currentLives = (int) Mathf.Max (currentLives, 0);
+        // Mathf.Max fungsi nya adalah mengambil angka terbesar
+        // sehingga _currentLives di sini tidak akan lebih kecil dari 0
+        _currentLives = Mathf.Max (currentLives, 0);
         _livesInfo.text = $"Lives: {_currentLives}";
     }
 
     public void SetTotalEnemy (int totalEnemy)
     {
-        _enemyCounter = (int) Mathf.Max (totalEnemy, 0f);
-        _totalEnemyInfo.text = $"Total Enemy: {_enemyCounter}";
+        _enemyCounter = totalEnemy;
+        _totalEnemyInfo.text = $"Total Enemy: {Mathf.Max (_enemyCounter, 0)}";
     }
 
     public void SetGameOver (bool isWin)
