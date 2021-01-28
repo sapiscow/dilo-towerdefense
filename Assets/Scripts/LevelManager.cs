@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    // Fungsi Singleton
     private static LevelManager _instance = null;
     public static LevelManager Instance
     {
@@ -19,14 +18,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private int _maxLives = 3;
-    [SerializeField] private int _totalEnemy = 15;
-
-    [SerializeField] private GameObject _panel;
-    [SerializeField] private Text _statusInfo;
-    [SerializeField] private Text _livesInfo;
-    [SerializeField] private Text _totalEnemyInfo;
-
     [SerializeField] private Transform _towerUIParent;
     [SerializeField] private GameObject _towerUIPrefab;
 
@@ -40,32 +31,18 @@ public class LevelManager : MonoBehaviour
     private List<Enemy> _spawnedEnemies = new List<Enemy> ();
     private List<Bullet> _spawnedBullets = new List<Bullet> ();
 
-    private int _currentLives;
-    private int _enemyCounter;
     private float _runningSpawnDelay;
-
-    public bool IsOver { get; private set; }
 
     private void Start ()
     {
-        SetCurrentLives (_maxLives);
-        SetTotalEnemy (_totalEnemy);
-
         InstantiateAllTowerUI ();
     }
 
     private void Update ()
     {
-        if (Input.GetKeyDown (KeyCode.R))
-        {
-            SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
-        }
-
-        if (IsOver)
-        {
-            return;
-        }
-
+        // Counter untuk spawn enemy dalam jeda waktu yang ditentukan
+        // Time.unscaledDeltaTime adalah deltaTime yang independent, tidak terpengaruh oleh apapun kecuali game object itu sendiri,
+        // jadi bisa digunakan sebagai penghitung waktu
         _runningSpawnDelay -= Time.unscaledDeltaTime;
         if (_runningSpawnDelay <= 0f)
         {
@@ -87,6 +64,8 @@ public class LevelManager : MonoBehaviour
                 continue;
             }
 
+            // Kenapa nilainya 0.1? Karena untuk lebih mentoleransi perbedaan posisi,
+            // akan terlalu sulit jika perbedaan posisinya harus 0 atau sama persis
             if (Vector2.Distance (enemy.transform.position, enemy.TargetPosition) < 0.1f)
             {
                 enemy.SetCurrentPathIndex (enemy.CurrentPathIndex + 1);
@@ -96,7 +75,6 @@ public class LevelManager : MonoBehaviour
                 }
                 else
                 {
-                    ReduceLives (1);
                     enemy.gameObject.SetActive (false);
                 }
             }
@@ -126,13 +104,6 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnEnemy ()
     {
-        SetTotalEnemy (--_enemyCounter);
-        if (_enemyCounter < 0)
-        {
-            SetGameOver (true);
-            return;
-        }
-
         int randomIndex = Random.Range (0, _enemyPrefabs.Length);
         string enemyIndexString = (randomIndex + 1).ToString ();
 
@@ -191,35 +162,8 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void ReduceLives (int value)
-    {
-        SetCurrentLives (_currentLives - value);
-        if (_currentLives <= 0)
-        {
-            SetGameOver (false);
-        }
-    }
-
-    public void SetCurrentLives (int currentLives)
-    {
-        _currentLives = (int) Mathf.Max (currentLives, 0);
-        _livesInfo.text = $"Lives: {_currentLives}";
-    }
-
-    public void SetTotalEnemy (int totalEnemy)
-    {
-        _enemyCounter = (int) Mathf.Max (totalEnemy, 0f);
-        _totalEnemyInfo.text = $"Total Enemy: {_enemyCounter}";
-    }
-
-    public void SetGameOver (bool isWin)
-    {
-        IsOver = true;
-
-        _statusInfo.text = isWin ? "You Win!" : "You Lose!";
-        _panel.gameObject.SetActive (true);
-    }
-
+    // Untuk menampilkan garis penghubung dalam window Scene
+    // tanpa harus di-Play terlebih dahulu
     private void OnDrawGizmos ()
     {
         for (int i = 0; i < _enemyPaths.Length - 1; i++)
