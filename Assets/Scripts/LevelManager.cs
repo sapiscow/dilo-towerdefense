@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    // Fungsi Singleton
     private static LevelManager _instance = null;
     public static LevelManager Instance
     {
@@ -56,6 +57,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update ()
     {
+        // Jika menekan tombol R, fungsi restart akan terpanggil
         if (Input.GetKeyDown (KeyCode.R))
         {
             SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
@@ -66,6 +68,9 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        // Counter untuk spawn enemy dalam jeda waktu yang ditentukan
+        // Time.unscaledDeltaTime adalah deltaTime yang independent, tidak terpengaruh oleh apapun kecuali game object itu sendiri,
+        // jadi bisa digunakan sebagai penghitung waktu
         _runningSpawnDelay -= Time.unscaledDeltaTime;
         if (_runningSpawnDelay <= 0f)
         {
@@ -87,6 +92,8 @@ public class LevelManager : MonoBehaviour
                 continue;
             }
 
+            // Kenapa nilainya 0.1? Karena untuk lebih mentoleransi perbedaan posisi,
+            // akan terlalu sulit jika perbedaan posisinya harus 0 atau sama persis
             if (Vector2.Distance (enemy.transform.position, enemy.TargetPosition) < 0.1f)
             {
                 enemy.SetCurrentPathIndex (enemy.CurrentPathIndex + 1);
@@ -129,7 +136,12 @@ public class LevelManager : MonoBehaviour
         SetTotalEnemy (--_enemyCounter);
         if (_enemyCounter < 0)
         {
-            SetGameOver (true);
+            bool isAllEnemyDestroyed = _spawnedEnemies.Find (e => e.gameObject.activeSelf) == null;
+            if (isAllEnemyDestroyed)
+            {
+                SetGameOver (true);
+            }
+
             return;
         }
 
@@ -202,14 +214,16 @@ public class LevelManager : MonoBehaviour
 
     public void SetCurrentLives (int currentLives)
     {
-        _currentLives = (int) Mathf.Max (currentLives, 0);
+        // Mathf.Max fungsi nya adalah mengambil angka terbesar
+        // sehingga _currentLives di sini tidak akan lebih kecil dari 0
+        _currentLives = Mathf.Max (currentLives, 0);
         _livesInfo.text = $"Lives: {_currentLives}";
     }
 
     public void SetTotalEnemy (int totalEnemy)
     {
-        _enemyCounter = (int) Mathf.Max (totalEnemy, 0f);
-        _totalEnemyInfo.text = $"Total Enemy: {_enemyCounter}";
+        _enemyCounter = totalEnemy;
+        _totalEnemyInfo.text = $"Total Enemy: {Mathf.Max (_enemyCounter, 0)}";
     }
 
     public void SetGameOver (bool isWin)
@@ -220,6 +234,8 @@ public class LevelManager : MonoBehaviour
         _panel.gameObject.SetActive (true);
     }
 
+    // Untuk menampilkan garis penghubung dalam window Scene
+    // tanpa harus di-Play terlebih dahulu
     private void OnDrawGizmos ()
     {
         for (int i = 0; i < _enemyPaths.Length - 1; i++)

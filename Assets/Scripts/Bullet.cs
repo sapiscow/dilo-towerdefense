@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
 
     private Enemy _targetEnemy;
 
+    // FixedUpdate adalah update yang lebih konsisten jeda pemanggilannya
+    // cocok digunakan jika karakter memiliki Physic (Rigidbody, dll)
     private void FixedUpdate ()
     {
         if (LevelManager.Instance.IsOver)
@@ -43,10 +45,12 @@ public class Bullet : MonoBehaviour
         {
             gameObject.SetActive (false);
 
+            // Bullet yang memiliki efek splash area
             if (_bulletSplashRadius > 0f)
             {
                 LevelManager.Instance.ExplodeAt (transform.position, _bulletSplashRadius, _bulletPower);
             }
+            // Bullet yang hanya single-target
             else
             {
                 _targetEnemy.ReduceEnemyHealth (_bulletPower);
