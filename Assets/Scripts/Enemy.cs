@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
     public void SetTargetPosition (Vector3 targetPosition)
     {
         TargetPosition = targetPosition;
+        _healthBar.transform.parent = null;
 
         // Mengubah rotasi dari enemy
         Vector3 distance = TargetPosition - transform.position;
@@ -55,6 +56,8 @@ public class Enemy : MonoBehaviour
                 transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, 180f));
             }
         }
+
+        _healthBar.transform.parent = transform;
     }
 
     // Menandai indeks terakhir pada path
