@@ -4,6 +4,8 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _maxHealth = 1;
     [SerializeField] private float _moveSpeed = 1f;
+    [SerializeField] private SpriteRenderer _healthBar;
+    [SerializeField] private SpriteRenderer _healthFill;
 
     private int _currentHealth;
 
@@ -24,6 +26,7 @@ public class Enemy : MonoBehaviour
     public void SetTargetPosition (Vector3 targetPosition)
     {
         TargetPosition = targetPosition;
+        _healthBar.transform.parent = null;
 
         // Mengubah rotasi dari enemy
         Vector3 distance = TargetPosition - transform.position;
@@ -53,6 +56,8 @@ public class Enemy : MonoBehaviour
                 transform.rotation = Quaternion.Euler (new Vector3 (0f, 0f, 180f));
             }
         }
+
+        _healthBar.transform.parent = transform;
     }
 
     public void ReduceEnemyHealth (int damage)
