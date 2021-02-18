@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private void OnEnable ()
     {
         _currentHealth = _maxHealth;
+        _healthFill.size = _healthBar.size;
     }
 
     public void MoveToTarget ()
