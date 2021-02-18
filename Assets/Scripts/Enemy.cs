@@ -66,8 +66,12 @@ public class Enemy : MonoBehaviour
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
+            _currentHealth = 0;
             gameObject.SetActive (false);
         }
+
+        float healthPercentage = (float) _currentHealth / _maxHealth;
+        _healthFill.size = new Vector2 (healthPercentage * _healthBar.size.x, _healthBar.size.y);
     }
 
     // Menandai indeks terakhir pada path
