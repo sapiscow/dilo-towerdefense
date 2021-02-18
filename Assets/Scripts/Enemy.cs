@@ -4,6 +4,8 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _maxHealth = 1;
     [SerializeField] private float _moveSpeed = 1f;
+    [SerializeField] private SpriteRenderer _healthBar;
+    [SerializeField] private SpriteRenderer _healthFill;
 
     private int _currentHealth;
 
